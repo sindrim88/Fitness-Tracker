@@ -6,34 +6,31 @@
 </head>
 <body>
     <p>here is user data</p>
-
     <p><a href="/addexercise">Add a new exercise</a></p>
 
-    <div th:switch="${exerciceLog}">
-        <h2 th:case="null">No Exercice yet!</h2>
+    <div th:switch="${exercises}">
+        <h2 th:case="null">No exercises yet!</h2>
         <div th:case="*">
-            <h2>Exercice</h2>
+            <h2>Exercises</h2>
             <table>
                 <thead>
                 <tr>
-                    <th>Exercice</th>
-                    <th>User</th>
-                    <th>From</th>
-                    <th>To</th>
-
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>duration</th>
+                    <th>Delete</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="log : ${exerciceLog}">
-                    <td th:text="${log.exercise.title}"></td>
-                    <td th:text="${log.user}"></td>
-                    <td th:text="${log.fromdate}"></td>
-                    <td th:text="${log.todate}"></td>
+                <tr th:each="exercise : ${exercises}">
+                    <td th:text="${exercise.title}"></td>
+                    <td th:text="${exercise.description}"></td>
+                    <td th:text="${exercise.duration}"></td>
+                    <td><a th:href="@{/delete/{id}(id=${exercise.id})}">Delete</a></td>
                 </tr>
                 </tbody>
             </table>
         </div>
-    </div>
 
         <p><a href="/login">Click here to register/login</a></p>
         <p><a href="/stats">Click here to see exercise statistics</a></p>

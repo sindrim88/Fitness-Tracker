@@ -24,7 +24,6 @@ public class User {
     }
 
     public void setExercices(List<ExerciseLog> exercices) {
-
         this.exercices = exercices;
     }
 

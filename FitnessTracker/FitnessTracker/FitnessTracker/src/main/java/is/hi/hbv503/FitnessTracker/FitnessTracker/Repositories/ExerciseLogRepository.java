@@ -9,5 +9,4 @@ public interface ExerciseLogRepository extends JpaRepository<ExerciseLog, Long> 
     ExerciseLog save(ExerciseLog exerciceLog);
     void delete(ExerciseLog exerciceLog);
     List<ExerciseLog> findAll();
-
 }
