@@ -1,15 +1,18 @@
 package is.hi.hbv503.FitnessTracker.FitnessTracker.Entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Exercise {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
+    @ManyToOne
+    private Exercise exercise;
+
+    @ManyToOne
+    private User user;
 
     private String title;
     private String description;
@@ -24,13 +27,24 @@ public class Exercise {
         this.duration = duration;
     }
 
+    public Exercise(Exercise exercise) {
+    }
+
+    public Exercise getUserExercise()
+    {
+        return exercise;
+    }
+
+    public void setUserExercise(Exercise exercise)
+    {
+        this.exercise = exercise;
+    }
+
     public long getId() {
         return id;
     }
 
-    public void setId(long id) {
-        this.id = id;
-    }
+    public void setId(long id) { this.id = id; }
 
     public String getTitle() {
         return title;

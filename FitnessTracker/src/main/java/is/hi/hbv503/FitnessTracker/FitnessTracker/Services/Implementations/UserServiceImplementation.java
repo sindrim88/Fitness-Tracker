@@ -1,5 +1,6 @@
 package is.hi.hbv503.FitnessTracker.FitnessTracker.Services.Implementations;
 
+import is.hi.hbv503.FitnessTracker.FitnessTracker.Entities.Exercise;
 import is.hi.hbv503.FitnessTracker.FitnessTracker.Entities.User;
 import is.hi.hbv503.FitnessTracker.FitnessTracker.Repositories.UserRepository;
 import is.hi.hbv503.FitnessTracker.FitnessTracker.Services.UserService;
@@ -9,8 +10,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class UserServiceImplementation implements UserService {
+public class UserServiceImplementation implements UserService{
     UserRepository repository;
+
+    UserService userService;
 
     @Autowired
     public UserServiceImplementation(UserRepository repository) {
@@ -48,4 +51,8 @@ public class UserServiceImplementation implements UserService {
         return null;
     }
 
+    @Override
+    public Exercise save(Exercise exercise) {
+         return repository.save(exercise);
+    }
 }

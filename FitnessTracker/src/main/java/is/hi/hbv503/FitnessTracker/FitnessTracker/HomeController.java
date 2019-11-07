@@ -11,14 +11,17 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.security.PrivateKey;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.List;
 import java.util.ListIterator;
 
 
@@ -43,51 +46,35 @@ public class HomeController {
         return "Velkominn";
     }
 
-
         @RequestMapping(value="/addexercise", method = RequestMethod.POST)
-        public String addExercise(@Valid Exercise exercise, @Valid User user, BindingResult result, Model model, HttpSession session){
+        public String addExercise(@Valid Exercise exercise, @Valid User user, BindingResult result, Model model, HttpSession session) throws ParseException {
             model.addAttribute("exercices",exerciseService.findAll());
             User sessionUser2 = (User) session.getAttribute("LoggedInUser");
-
+            String tempUser = sessionUser2.toString();
             if(sessionUser2  != null){
                 model.addAttribute("loggedinuser", sessionUser2);
 
                 if(result.hasErrors()){
                     return "add-exercise";
                 }
-                exerciseService.save(exercise);
-                User sessionUserCurrent = userService.findByUsername(sessionUser2.toString());
-
-                //model.addAttribute("exercices", exerciseService.findAll());
-                System.out.println(exerciseService.findAll().get(0).getDescription());
-
+                model.addAttribute("exercices",exerciseService.findAll());
                 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
                 String tempname = sessionUser2.getuName();
-                //System.out.println(userService.findByUsername(tempname));
-                //System.out.println(userService.findByUsername(tempname).getExercices());
-                try{
-                    //exerciseService.save(exercise);
-                    exerciseLogService.save(new ExerciseLog(exercise,sessionUserCurrent,sdf.parse("21/12/2012"),sdf.parse("31/12/2013")));
-                    //sessionUserCurrent.setExercices(new ExerciseLog(exercise,sessionUserCurrent,sdf.parse("21/12/2012"),sdf.parse("31/12/2013")));
-                    System.out.println(userService.findByUsername(tempname));
-                    //userService.findByUsername(tempname)(exerciseLogService.save(exercise,sessionUser2,sdf.parse("21/12/2012"),sdf.parse("31/12/2013")));
-                    //userService.findByUsername(tempname).setExercices(new ExerciseLog(exerciseLogService.save(exercise,sessionUser2,sdf.parse("21/12/2012"),sdf.parse("31/12/2013"))));
-                   // exerciseLogService.save(new ExerciseLog(exercise, sessionUser2, sdf.parse("21/12/2012"),sdf.parse("21/12/2012")));
+                exerciseService.save(exercise);
+                User sessionUserCurrent = userService.findByUsername(sessionUser2.toString());
+                try {
+                    exerciseLogService.save(new ExerciseLog(exercise, sessionUserCurrent, sdf.parse("21/12/2012"), sdf.parse("31/12/2013")));
+                    System.out.println("Add exercice");
                 }catch (ParseException e) {
                     e.printStackTrace();
                 }
+                System.out.println(3);
 
-
-
-                //rentalLogService.save(new RentalLog(tempMovie.get(0),tempUser,sdf.parse("21/12/2012"),sdf.parse("31/12/2013") ));
-                //model.addAttribute("exercises", exerciseLogService.findAll());
-                //System.out.println(sessionUser2.getExercices());
-                //System.out.println();
-                return "Velkominn";
+                return "userprofile";
             }
-
-            return "Velkominn";
+            return "userprofile";
         }
+
 
         @RequestMapping(value="/addexercise", method = RequestMethod.GET)
         public String addExerciseForm(Exercise exercise){
@@ -104,36 +91,29 @@ public class HomeController {
 
         //To be continued...
         @RequestMapping(value = "/stats", method = RequestMethod.GET)
-        public String statsPage(Model model){
+        public String statsPage(HttpSession session, Model model){
+            User sessionUser1 = (User) session.getAttribute("LoggedInUser");
+            String tempname = sessionUser1.toString();
+            double totalTime = 0;
 
-            //needs to be made in a seperate class...
-            System.out.println("sdasd" + exerciseService.findAll().size());
-            int size = exerciseService.findAll().size();
-            System.out.println("size = " + size);
-            Stats stats = new Stats();
-            double time = stats.getTotalTime(size);
-            System.out.println(time);
-            model.addAttribute("time", time);
-            /*
-            int i = 0;
-            int totalTime = 0;
-            while(i < exerciseService.findAll().size()){
-                totalTime += exerciseService.findAll().get(i).getDuration();
-                i++;
+            for (int i = 0; i <userService.findByUsername(tempname).getExercices().size(); i++){
+                System.out.println(i + " Exercise = " + userService.findByUsername(tempname).getExercices().get(i).getExercise().getDuration() +  " Minutes");
+                totalTime += userService.findByUsername(tempname).getExercices().get(i).getExercise().getDuration();
             }
-            System.out.println("Total time spent: " +  totalTime);
-            model.addAttribute("time", totalTime);
-            */
+            model.addAttribute("totalTime", totalTime);
             return "Stats";
         }
 
+    //@GetMapping("/signup")
 
     @RequestMapping(value = "/signup", method = RequestMethod.GET)
     public String signUpGET(User user){
         return "signup";
     }
 
-    @RequestMapping(value = "/signup", method = RequestMethod.POST)
+    //@GetMapping("/signup")
+
+    @RequestMapping(value = "signup", method = RequestMethod.POST)
     public String signUpPOST(@Valid User user, BindingResult result, Model model){
         if(result.hasErrors()){
             return "signup";
@@ -168,7 +148,7 @@ public class HomeController {
         User exists = userService.login(user);
         if(exists != null){
             session.setAttribute("LoggedInUser", user);
-            return "redirect:/";
+            return "userprofile";
         }
         return "redirect:/";
     }
@@ -176,9 +156,7 @@ public class HomeController {
 
     @RequestMapping(value = "/loggedin", method = RequestMethod.GET)
     public String loggedinGET(HttpSession session, Model model){
-        model.addAttribute("exercices",exerciseService.findAll());
         User sessionUser = (User) session.getAttribute("LoggedInUser");
-        System.out.println(sessionUser);
         if(sessionUser  != null){
             model.addAttribute("loggedinuser", sessionUser);
             return "loggedInUser";
@@ -189,33 +167,37 @@ public class HomeController {
     @RequestMapping(value = "/userprofile", method = RequestMethod.GET)
     public String userprofile(HttpSession session, Model model){
 
-        //model.addAttribute("exercices",exerciseService.findAll());
-       // User sessionUser = (User) session.getAttribute("LoggedInUser");
-        /*
-        if(sessionUser  != null){
-            model.addAttribute("loggedinuser", sessionUser);
-        }
-
-         */
-
-        model.addAttribute("exercices",exerciseService.findAll());
         User sessionUser1 = (User) session.getAttribute("LoggedInUser");
-        //System.out.println(sessionUser1);
-        String tempname = sessionUser1.getuName();
-        //System.out.println("LoggedInUser: " + sessionUser1 + " " +  tempname);
+
         if(sessionUser1  != null){
-            //model.addAttribute("userprofile", sessionUser);
+            String tempname = sessionUser1.getuName();
             model.addAttribute("exerciceLog", userService.findByUsername(tempname).getExercices());
+            System.out.println(userService.findByUsername(tempname).getExercices().get(0).getExercise().getDuration());
             return "userprofile";
         }
-
         return "Velkominn";
     }
 
 
     @RequestMapping("/rentals")
-    public String allRentals(Model model){
+    public String allRentals(Model model,HttpSession session){
         model.addAttribute("exerciceLog", exerciseLogService.findAll());
+        User sessionUser1 = (User) session.getAttribute("LoggedInUser");
+        String tempname = sessionUser1.toString();
+        for (int i = 0; i <userService.findByUsername(tempname).getExercices().size(); i++){
+            System.out.println(i + " Exercise = " + userService.findByUsername(tempname).getExercices().get(i).getExercise().getDuration() +  " Minutes");
+        }
         return "rentals";
+    }
+
+
+    @RequestMapping("/makedata")
+    public String makeData(Model model){
+
+        User temp = new User("Sindri","pass");
+        userService.save(temp);
+        userService.login(temp);
+        System.out.println(temp);
+        return "userprofile";
     }
 }

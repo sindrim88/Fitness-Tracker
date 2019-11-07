@@ -5,9 +5,11 @@
     <title>Title</title>
 </head>
 <body>
+
+<p><a href="userprofile.html">Click here to see your profile</a></p>
     <p>here is user data</p>
 
-    <p><a href="/addexercise">Add a new exercise</a></p>
+    <p><a href="add-exercise.html">Add a new exercise</a></p>
 
     <div th:switch="${exerciceLog}">
         <h2 th:case="null">No Exercice yet!</h2>
@@ -34,8 +36,6 @@
             </table>
         </div>
     </div>
-
-        <p><a href="/login">Click here to register/login</a></p>
-        <p><a href="/stats">Click here to see exercise statistics</a></p>
+        <p><a href="stats.html">Click here to see exercise statistics</a></p>
 </body>
 </html>

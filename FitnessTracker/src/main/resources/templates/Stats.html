@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
-<body><div th:switch="${time}">
+<body><div th:switch="${totalTime}">
     <h2 th:case="null">Statistics!</h2>
     <div th:case="*">
         <h2>Exercises</h2>
@@ -15,8 +15,8 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="time : ${time}">
-                <td th:text="${time}"></td>
+            <tr th:each="setTime : ${totalTime}">
+                <td th:text="${setTime}"></td>
             </tr>
             </tbody>
         </table>

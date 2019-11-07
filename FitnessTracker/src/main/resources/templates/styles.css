@@ -1,0 +1,153 @@
+/* Clear browser styles */
+body {
+	margin: 0px;
+}
+
+
+h1, h2, h3, h4, h5, h6, p, a, label, span {
+	font-family: "Nunito";
+	text-decoration: none;
+}
+
+p{
+	font-weight: 200;
+}
+
+a {
+	color: #50a4b5;
+}
+
+.home-screen {
+	height: 100vh;
+	background-image: url('img/fitness-tracker.png');
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: right;
+	padding: 25px 50px 25px 100px;
+
+}
+
+.navbar {
+	list-style: none;
+}
+
+.navbar li {
+	display: inline;
+	float: right;
+}
+
+.navbar li a {
+	color: black;
+}
+
+.navbar li a:hover {
+	color: darkgrey;
+}
+
+.btn {
+	border-radius: 50px;
+	padding: 10px 20px 10px 20px;
+	background-image: linear-gradient(to right, #1A2980 0%, #1A2980 100%);
+	color: white;
+}
+
+.btn:hover{
+	background-color: RED;
+
+}
+
+/* Style the signup link as a CTA button*/
+.signup {
+	color: white;
+	margin-top: 50px;
+	background-image: linear-gradient(to right, #1A2980 0%, #1A2980 100%);
+}
+
+.signup:hover { 
+	background-position: right center; 
+	}
+
+
+.hero {
+	text-align: middle;
+}
+
+.hero-title {
+	font-family: "Nunito";
+	font-size: 5em;
+	margin-top: 300px;
+	margin-bottom: 0px;
+	line-height: 1em;
+	max-width: 20%;
+}
+
+.hero-subtitle {
+	margin-bottom: 50px;
+	max-width: 30%;
+}
+
+/*.SIGN UP STLYES */
+
+.form-page{
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+}
+
+.col-6 {
+	width: 50%;
+	display:inline;
+	height: 100vh;
+}
+
+#active {
+	background-image: url("img/active.jpg");
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center center;
+}
+
+.form-section{
+	padding-left: 100px;
+	padding-top: 25px;
+}
+
+.form-section h2 {
+	margin-top: 200px;
+}
+
+label {
+	display: block;
+}
+
+input {
+	padding: 10px;
+	display: block;
+	margin-bottom: 15px;
+	background-color: #f4f4f4;
+	border: 1px solid #dce0e3;
+	width: 75%;
+}
+
+input.btn {
+	width: auto;
+}
+
+#weights {
+	background-image: url("img/weights.jpg");
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: right center;
+}
+
+.logo {
+	letter-spacing: .2em;
+	font-size: 1.5em;
+	text-transform: uppercase;
+}
+
+/* PROFILE STYLES */
+.profile {
+	padding-left: 100px;
+	padding-top: 25px;
+}

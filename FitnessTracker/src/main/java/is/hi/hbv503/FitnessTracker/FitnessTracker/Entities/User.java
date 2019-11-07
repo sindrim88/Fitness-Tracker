@@ -1,20 +1,24 @@
 package is.hi.hbv503.FitnessTracker.FitnessTracker.Entities;
 
+import is.hi.hbv503.FitnessTracker.FitnessTracker.Services.ExerciseService;
+import is.hi.hbv503.FitnessTracker.FitnessTracker.Services.UserService;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import javax.validation.constraints.Pattern;
 
+
 @Entity
 @Table(name = "USER")
-public class User {
+public class User{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+
     public String username;
     public String password;
-
 
     @OneToMany(mappedBy = "user")
     private List<ExerciseLog> exercices = new ArrayList<>();
@@ -24,13 +28,22 @@ public class User {
     }
 
     public void setExercices(List<ExerciseLog> exercices) {
-
         this.exercices = exercices;
+    }
+
+    @OneToMany(mappedBy = "user")
+    private List<Exercise> userExercices = new ArrayList<>();
+
+    public List<Exercise> getUserExercice() {
+        return userExercices;
+    }
+
+    public void setUserExercices(List<Exercise> exercices) {
+        this.userExercices = exercices;
     }
 
     public User() {
     }
-
 
     public long getId() {
         return id;
@@ -62,7 +75,14 @@ public class User {
     }
 
     public User(String username, String password) {
+        super();
         this.username = username;
         this.password = password;
+        this.userExercices = new ArrayList<Exercise>();
     }
+
+    public void addExercice(Exercise exercise) {
+        userExercices.add(exercise);
+    }
+
 }
