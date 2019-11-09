@@ -90,7 +90,7 @@ public class HomeController {
         }
 
         //To be continued...
-        @RequestMapping(value = "/stats", method = RequestMethod.GET)
+        @RequestMapping(value = "stats", method = RequestMethod.GET)
         public String statsPage(HttpSession session, Model model){
             User sessionUser1 = (User) session.getAttribute("LoggedInUser");
             String tempname = sessionUser1.toString();
@@ -169,8 +169,10 @@ public class HomeController {
 
         if(sessionUser1  != null){
             String tempname = sessionUser1.getuName();
-            model.addAttribute("exerciceLog", userService.findByUsername(tempname).getExercices());
-            System.out.println(userService.findByUsername(tempname).getExercices().get(0).getExercise().getDuration());
+            if(userService.findByUsername(tempname).getExercices().size() > 0){
+                model.addAttribute("exerciceLog", userService.findByUsername(tempname).getExercices());
+                System.out.println(userService.findByUsername(tempname).getExercices().get(0).getExercise().getDuration());
+            }
             return "userprofile";
         }
         return "Velkominn";

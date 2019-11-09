@@ -32,48 +32,19 @@
                     <th>Date</th>
                     <th>Exercise</th>
                     <th>Duration</th>
-
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="log : ${exerciceLog}">
-                    <td th:text="${log.fromdate}">7.11.19</td>
-                    <td th:text="${log.exercise.title}">Weights</td>
-                    <td th:text="${log.todate}">1 hr</td>
-                </tr>
-                <tr th:each="log : ${exerciceLog}">
-                    <td th:text="${log.fromdate}">6.11.19</td>
-                    <td th:text="${log.exercise.title}">Running</td>
-                    <td th:text="${log.todate}">40 min</td>
-                </tr>
-                <tr th:each="log : ${exerciceLog}">
-                    <td th:text="${log.fromdate}">5.11.19</td>
-                    <td th:text="${log.exercise.title}">Cycling</td>
-                    <td th:text="${log.todate}">1.5 hr</td>
-                </tr>
-                <tr th:each="log : ${exerciceLog}">
-                    <td th:text="${log.fromdate}">4.11.19</td>
-                    <td th:text="${log.exercise.title}">Rowing machine</td>
-                    <td th:text="${log.todate}">30 hr</td>
+                    <td th:text="${log.fromdate}"></td>
+                    <td th:text="${log.exercise.title}"></td>
+                    <td th:text="${log.exercise.duration}"></td>
                 </tr>
                 </tbody>
-                <!--
-                <tbody>
-                    <tr th:each="log : ${exerciceLog}">
-                         DISPLAY JUST THE DATE
-                        <td th:text="${log.fromdate}"></td>
-                        <td th:text="${log.exercise.title}"></td>
-                         DISPLAY THE WORKOUT DURATION IN HRS MINS
-                        <td th:text="${log.todate}"></td>
-                    </tr>
-                </tbody>
-            -->
             </table>
         </div>
     </div>
     <p><a href="stats">📈See my statistics→</a></p>
-
 </div>
-
 </body>
 </html>
